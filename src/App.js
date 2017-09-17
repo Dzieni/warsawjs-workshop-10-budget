@@ -34,7 +34,7 @@ class App extends Component {
       <div className="App">
         <Counter />
 
-        <TransactionCard key={transaction.id} transactionName={transaction.description} transactionValue={transaction.value} categoryName={transaction.category} transactionDate={transaction.date} />
+        <TransactionCard item={transaction} />
       </div>
     );
   }

@@ -6,12 +6,14 @@ class TransactionCard extends Component {
     super(props);
   }
   render() {
+    const { item: {id, description, category, date, value} } = this.props;
+    
     return (
       <div>
-        Nazwa transakcji: {this.props.transactionName}<br/>
-        Data: {this.props.transactionDate}<br/>
-        Kwota: {this.props.transactionValue} PLN<br/>
-        Kategoria: {this.props.categoryName}
+        Nazwa transakcji: {description}<br/>
+        Data: {date}<br/>
+        Kwota: {value} PLN<br/>
+        Kategoria: {category}
       </div>
     )
   }
@@ -20,7 +22,7 @@ class TransactionCard extends Component {
 TransactionCard.propTypes = {
   transactionName: PropTypes.string,
   transactionValue: PropTypes.number,
-  transactionDate: PropTypes.instanceOf(Date),
+  transactionDate: PropTypes.string,
   categoryName: PropTypes.string
 }
 
