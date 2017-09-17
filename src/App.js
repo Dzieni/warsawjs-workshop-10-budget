@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
-import { TransactionList, TransactionForm } from './components';
+import { TransactionsView, CategoriesView } from './components';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.removeTransactionCardById = this.removeTransactionCardById.bind(this);
     this.addTransactionCard = this.addTransactionCard.bind(this);
+    this.changeCurrentCategory = this.changeCurrentCategory.bind(this);
   }
   state = {
+    currentView: 'transactions',
+    currentCategory: null,
     transactions: [
       {
         id: 1,
@@ -31,6 +34,26 @@ class App extends Component {
         date: '26.08.2017',
         category: 'Samochód'
       }
+    ],
+    categories: [
+      {
+        id: 1,
+        name: 'Edukacja',
+        budgeted: 100,
+        activity: 50
+      },
+      {
+        id: 2,
+        name: 'Transport',
+        budgeted: 200,
+        activity: 123
+      },
+      {
+        id: 3,
+        name: 'Samochód',
+        budgeted: 300,
+        activity: 170
+      }
     ]
   }
   removeTransactionCardById(transactionId) {
@@ -48,12 +71,52 @@ class App extends Component {
       transactions: newTransactions
     });
   }
+  changeCategoryBudget(categoryId, newBudget) {
+    const newCategories = this.state.categories;
+    const categoryIndex = this.state.transactions.findIndex((el) => {
+      return el.id === categoryId;
+    });
+    if (categoryIndex > -1) {
+      newCategories[categoryIndex].budget = newBudget;
+      this.setState({
+        categories: newCategories
+      });
+    }
+  }
+  changeView(newView) {
+    this.setState({
+      currentView: newView
+    });
+  }
+  changeCurrentCategory(newCategory) {
+    this.setState({
+      currentCategory: newCategory
+    });
+    if (this.state.currentView === 'categories') {
+      this.changeView('transactions');
+    }
+    else {
+      this.changeView('categories');      
+    }
+  }
   render() {
-    const transactions = this.state.transactions;
+    let transactions;
+    if (typeof this.state.currentCategory === 'string') {
+      transactions = this.state.transactions.filter((el) => {
+        return el.category === this.state.currentCategory;
+      });
+    }
+    else {
+      transactions = this.state.transactions;
+    }
+    const categories = this.state.categories;
+    const transactionsView = <TransactionsView list={transactions} addCardFunction={this.addTransactionCard} removeCardFunction={this.removeTransactionCardById} changeCategoryFunction={this.changeCurrentCategory} />
     return (
-      <div className="App">
-        <TransactionForm addCardFunction={this.addTransactionCard} />
-        <TransactionList list={transactions} removeCardFunction={this.removeTransactionCardById} />
+      <div className="budget">
+        <button onClick={() => this.changeView('transactions')}>Transakcje</button>
+        <button onClick={() => this.changeView('categories')}>Kategorie</button>
+        {this.state.currentView === 'transactions' && transactionsView}
+        {this.state.currentView === 'categories' && <CategoriesView showTransactions={typeof this.state.currentCategory === 'string' ? transactionsView : ''} list={categories} changeCategoryFunction={this.changeCurrentCategory} />}
       </div>
     );
   }

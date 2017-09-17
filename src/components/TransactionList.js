@@ -8,7 +8,7 @@ class TransactionList extends Component {
     return (
       <ul>
         {list.map((el) => {
-          return <li key={el.id}><TransactionCard item={el} removeCardFunction={this.props.removeCardFunction} /></li>
+          return <li key={el.id}><TransactionCard item={el} removeCardFunction={this.props.removeCardFunction} changeCategoryFunction={this.props.changeCategoryFunction} /></li>
         })}
       </ul>
     );
