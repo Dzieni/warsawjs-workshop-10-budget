@@ -11,6 +11,7 @@ class TransactionCard extends Component {
         Data: {date}<br/>
         Kwota: {value} PLN<br/>
         Kategoria: {category}
+        <button onClick={() => this.props.removeCardFunction(id)}>Usuń</button>
       </div>
     )
   }

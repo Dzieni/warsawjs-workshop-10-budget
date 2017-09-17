@@ -1,29 +1,22 @@
 import React, { Component } from 'react';
+import TransactionCard from './TransactionCard.js';
 import PropTypes from 'prop-types';
 
 class TransactionList extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
-    const { item: { id, description, category, date, value } } = this.props;
-
+    const { list } = this.props;
     return (
-      <div>
-        Nazwa transakcji: {description}<br />
-        Data: {date}<br />
-        Kwota: {value} PLN<br />
-        Kategoria: {category}
-      </div>
-    )
+      <ul>
+        {list.map((el) => {
+          return <li key={el.id}><TransactionCard item={el} removeCardFunction={this.props.removeCardFunction} /></li>
+        })}
+      </ul>
+    );
   }
 }
 
 TransactionCard.propTypes = {
-  transactionName: PropTypes.string,
-  transactionValue: PropTypes.number,
-  transactionDate: PropTypes.string,
-  categoryName: PropTypes.string
+  list: PropTypes.array
 }
 
-export default TransactionCard;
+export default TransactionList;

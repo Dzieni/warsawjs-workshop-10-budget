@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Counter, TransactionCard } from './components';
+import { Counter, TransactionList } from './components';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.removeTransactionCardById = this.removeTransactionCardById.bind(this);
+  }
   state = {
     transactions: [
       {
@@ -28,13 +32,20 @@ class App extends Component {
       }
     ]
   }
+  removeTransactionCardById(transactionId) {
+    this.setState({
+      transactions: this.state.transactions.filter((el) => {
+        return el.id !== transactionId;
+      })
+    });
+  }
   render() {
-    const transaction = this.state.transactions[0];
+    const transactions = this.state.transactions;
     return (
       <div className="App">
         <Counter />
 
-        <TransactionCard item={transaction} />
+        <TransactionList list={transactions} removeCardFunction={this.removeTransactionCardById} />
       </div>
     );
   }
