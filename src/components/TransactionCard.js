@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class TransactionCard extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const { item: {id, description, category, date, value} } = this.props;
     
     return (
-      <div>
+      <div className="transaction-card" id={'transactionCard_'+id}>
         Nazwa transakcji: {description}<br/>
         Data: {date}<br/>
         Kwota: {value} PLN<br/>
@@ -20,10 +17,13 @@ class TransactionCard extends Component {
 }
 
 TransactionCard.propTypes = {
-  transactionName: PropTypes.string,
-  transactionValue: PropTypes.number,
-  transactionDate: PropTypes.string,
-  categoryName: PropTypes.string
+  item: PropTypes.shape({
+    id: PropTypes.number,
+    description: PropTypes.string,
+    category: PropTypes.string,
+    date: PropTypes.string,
+    value: PropTypes.number
+  })
 }
 
 export default TransactionCard;
