@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Counter, TransactionList } from './components';
+import { TransactionList, TransactionForm } from './components';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.removeTransactionCardById = this.removeTransactionCardById.bind(this);
+    this.addTransactionCard = this.addTransactionCard.bind(this);
   }
   state = {
     transactions: [
@@ -39,12 +40,19 @@ class App extends Component {
       })
     });
   }
+  addTransactionCard(transaction) {
+    const newTransactions = this.state.transactions;
+    transaction.id = newTransactions[newTransactions.length-1].id+1;
+    newTransactions.push(transaction);
+    this.setState({
+      transactions: newTransactions
+    });
+  }
   render() {
     const transactions = this.state.transactions;
     return (
       <div className="App">
-        <Counter />
-
+        <TransactionForm addCardFunction={this.addTransactionCard} />
         <TransactionList list={transactions} removeCardFunction={this.removeTransactionCardById} />
       </div>
     );
